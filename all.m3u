@@ -3132,3 +3132,10 @@ https://amg19223-amg19223c3-amgplt0351.playout.now3.amagi.tv/playlist/amg19223-a
 https://amg19223-amg19223c4-amgplt0351.playout.now3.amagi.tv/playlist/amg19223-amg19223c4-amgplt0351/playlist.m3u8
 #EXTINF:-1 group-title="Philippines" tvg-id="TeleRadyo.ph@HD",TeleRadyo (1080p)
 https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd
+
+
+#EXTINF:-1 group-title="Movies",🎬 电影专区
+https://moontv-5qw.pages.dev/
+
+#EXTINF:-1 group-title="Series",📺 电视剧专区
+https://moontv-5qw.pages.dev/
