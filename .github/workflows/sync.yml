@@ -1,4 +1,4 @@
-name: Sync All Countries IPTV
+name: IPTV + MoonTV
 on:
   schedule:
     - cron: "0 */6 * * *"
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download all countries
+      - name: Download live channels
         run: |
           curl -L "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/cn.m3u" -o cn.m3u
           curl -L "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/hk.m3u" -o hk.m3u
@@ -25,9 +25,20 @@ jobs:
           curl -L "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/in.m3u" -o in.m3u
           curl -L "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ph.m3u" -o ph.m3u
 
-      - name: Merge to all.m3u
+      - name: Create MoonTV VOD
+        run: |
+          echo "#EXTM3U" > vod.m3u
+          echo "" >> vod.m3u
+          echo "#EXTINF:-1 group-title=\"Movies\",🎬 电影专区" >> vod.m3u
+          echo "https://moontv-5qw.pages.dev/" >> vod.m3u
+          echo "" >> vod.m3u
+          echo "#EXTINF:-1 group-title=\"Series\",📺 电视剧专区" >> vod.m3u
+          echo "https://moontv-5qw.pages.dev/" >> vod.m3u
+
+      - name: Merge all into all.m3u
         run: |
           echo "#EXTM3U" > all.m3u
+
           echo "" >> all.m3u
           sed 's/^#EXTINF:-1 /#EXTINF:-1 group-title="China" /' cn.m3u | tail -n +2 >> all.m3u
           echo "" >> all.m3u
@@ -51,9 +62,10 @@ jobs:
           echo "" >> all.m3u
           sed 's/^#EXTINF:-1 /#EXTINF:-1 group-title="Philippines" /' ph.m3u | tail -n +2 >> all.m3u
 
+          echo "" >> all.m3u
+          tail -n +2 vod.m3u >> all.m3u
+
       - name: Commit
         uses: EndBug/add-and-commit@v9
         with:
-          message: Auto Update
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
+          message: Update without password
